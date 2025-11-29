@@ -1,6 +1,6 @@
 ---
 title: "NCLP CTF — Season 1 [Forensics]"
-date: 2025-10-09 12:00:00
+date: 2025-10-05 12:00:00
 tags:
   - Steganography
   - Memory-Forensics

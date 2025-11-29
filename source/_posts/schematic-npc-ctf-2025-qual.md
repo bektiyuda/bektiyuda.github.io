@@ -1,6 +1,6 @@
 ---
 title: "Schematics NPC CTF 2025 Quals"
-date: 19-10-2025 17:01:20
+date: 2025-10-19 17:01:20
 tags:
   - WordPress
   - Cryptography
