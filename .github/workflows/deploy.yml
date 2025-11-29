@@ -49,6 +49,9 @@ jobs:
       - name: Generate static files
         run: hexo generate
 
+      - name: Add .nojekyll to public
+        run: touch ./public/.nojekyll
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
