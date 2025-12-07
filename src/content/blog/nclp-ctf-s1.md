@@ -10,12 +10,13 @@ Complete write-ups of challenge that I solved in CTF Competition held by Noctra 
 ![](/images/nclp/score.png)
 ![](/images/nclp/image.png)
 
-## a bit plan - Forensic
+## Forensic
+### a bit plan
 
-### Description
+#### Description
 I dare you can't find my flag
 
-### Solution
+#### Solution
 From the chall title, it references to steganography technique bit plane.
 
 ![Stego Image](/images/nclp/a_bit_plan/image.png)
@@ -26,15 +27,15 @@ With tools from (https://georgeom.net/StegOnline/upload), we can explore the bit
 
 Flag found in Blue 0.
 
-### Flag
+#### Flag
 NCLPS1{b4g41mAna_mungk1n_k4mu_m3nemuk4n_ku?_ ed137c932e}
 
-## chunking - Forensic
+### chunking
 
-### Description
+#### Description
 Pada 23–24 Agustus 2025 (WIB), tim security melihat lonjakan ke endpoint internal melewati reverse proxy produksi. Permintaan berasal dari beberapa ASN cloud dan residential. Tidak ada anomali mencolok di status HTTP (umumnya 200/204), tetapi metrik request length meningkat, sementara upstream response time tetap rendah. Dugaan awal adalah beaconing
 
-### Solution
+#### Solution
 Starting with opening the log file and found `rb64` field. From the rb64 field, we can collect all of rb64's values with this code.
 ```python
 import sys, json, argparse
@@ -145,15 +146,15 @@ if __name__ == "__main__":
     main()
 ```
 
-### Flag
+#### Flag
 NCLPS1{gz_m3rup4kAn_mUlt1m3mBer_bUk4n_P3r_cHunK_74c0dbcef2}
 
-## Evaporated - Forensic
+### Evaporated 
 
-### Description
+#### Description
 Someone is hiding something there, but I don't know what they are hiding
 
-### Solution
+#### Solution
 ![](/images/nclp/evaporated/image.png)
 
 We are given evidence file named `evaporated.001`. With autopsy, we know that there is deleted file name `logo noctra lupra.png`.
@@ -176,15 +177,15 @@ In PNG file, width and height are saved in **IHDR** chunk. So, I changed the val
 
 After I changed it, the flag appears in the bottom of the file.
 
-### Flag
+#### Flag
 NCLPS1{t4k_kus4ngkA_t3rny4Ta_fl4gny4_b3rsembuny1_09217b9c25}
 
-## Forgotten Fragments - Forensic
+### Forgotten Fragments 
 
-### Description
+#### Description
 Forgotten fragments of the screen still linger in the client's memory.
 
-### Solution
+#### Solution
 ```bash
 xxd -g 1 -l 64 Cache0000.bin
 ```
@@ -203,15 +204,15 @@ python3 bmc-tools.py -s Cache0000.bin -b -d ./out
 
 After that, in /out we can see the result and the collage named **`_collage.bmp`**. Zoom in on the clearest tiles to get the flag.
 
-### Flag
+#### Flag
 NCLPS1{in1_ng4p4in_bAngG,_bElaJar_Ya_b4ng?_9c84ea66ff}
 
-## From Outer Space - Forensic
+### From Outer Space 
 
-### Description
+#### Description
 Sinyal misterius
 
-### Solution
+#### Solution
 ![alt text](/images/nclp/outer_space/image-1.png)
 
 I checked what the given file actually is and it turns out that's a RIFF audio file.
@@ -220,17 +221,17 @@ I checked what the given file actually is and it turns out that's a RIFF audio f
 
 One of the typical audio steganography techniques is using SSTV, so I tried to decode it with [SSTV Decoder](https://sstv-decoder.mathieurenaud.fr/) and I could retrieve the flag.
 
-### Flag
+#### Flag
 NCLPS1{m44f_ya_b3r1sik_t3lin94_am4n_kan?}
 
-## Incident Trace - Forensic
+### Incident Trace 
 
-### Description
+#### Description
 Sebuah mesin memperlihatkan aktivitas tak biasa, diduga terinfeksi binary berbahaya. Timmu berhasil memperoleh memory dump dari mesin tersebut. Periksa lebih dalam untuk menemukan artefak penting yang tersembunyi ataupun mencurigakan.
 
 Note: Flag has 2 parts
 
-### Solution
+#### Solution
 We're given `*.lime` file (Linux memory extractor). For the further analysis, I'm using volatility 3 to extract the dump of process and memory.
 
 ![alt text](/images/nclp/incident_trace/image.png)
@@ -282,15 +283,15 @@ Further scanning, I dump all of strings from pid 597 with yara rule.
 
 PartB found in the response body of the c2, assamble it to get the correct flag.
 
-### Flag
+#### Flag
 NCLPS1{w00owWwW_k4mu_men3muK4n_fLa9_d1_h34p_seLanjuTNy4_d1_n3TwoRk_vla_C2_buff3r_2fafe5711d}
 
-## Layers - Forensic
+### Layers 
 
-### Description
+#### Description
 Sebuah layanan internal (web static di reverse Nginx dengan backend di /api) sempat dibuild dan didistribusikan. Setelah itu, salah satu developer mengakui pernah memasukkan sebuah berkas teks berisi token internal ke dalam layanan tersebut, lalu diubah isinya beberapa waktu kemudian, dan akhirnya dihapus pada build berikutnya. Untuk keperluan audit & rotasi kredensial, tim diminta memastikan apakah artefak token itu masih tersisa, dan bila masih ada mengambil nilai token tersebut.
 
-### Solution
+#### Solution
 Given `layers.tar` and after extracting the file, it turns out that's an OCI image layout. First step is to convert the OCI-Layout to docker-archive so I can do the analysis more easily.
 
 ```bash
@@ -312,18 +313,17 @@ tar xvf layers-docker.tar
 
 ![alt text](/images/nclp/layers/image-1.png)
 
-### Reference
-https://05t3.github.io/posts/Urchinsec-CTF/
+**Reference** https://05t3.github.io/posts/Urchinsec-CTF/
 
-### Flag
+#### Flag
 NCLPS1{d33p_l4yer5_pRes3rVe_t1meLinE_M0re_th4n_y0u_th1nk_822644845a}
 
-## Redaction Fail - Forensic
+### Redaction Fail 
 
-### Description
+#### Description
 Divisi compliance menyerahkan sebuah dokumen final yang telah dirilis ke pihak eksternal. Dokumen tersebut memuat blok hitam menutupi sebuah informasi sensitif. Ada dugaan bahwa proses "redaksi" tidak dilakukan dengan benar.
 
-### Solution
+#### Solution
 I started with opening the PDF file and seeing the parts that got censored. But most of all, it's just a decoy. The next step is to analyze the PDF structures with strings.
 
 ![alt text](/images/nclp/redaction/image.png)
@@ -346,15 +346,15 @@ except zlib.error:
 print(result.decode("utf-8", errors="replace"))
 ```
 
-### Flag
+#### Flag
 NCLPS1{teRny4ta_fl4g_d1_r3v1Si0n_z3Ro_iNcr3MenTal_uPddaTe_m3n1pu_m4ta_0dd31503e3}
 
-## Reward Runner - Forensic
+### Reward Runner 
 
-### Description
+#### Description
 Rani baru saja mendapatkan email aneh. Pada email tersebut Rani diberikan file "rewardrunner.exe". Saat dijalankan Rani kehilangan pesan penting-nya. Tolong Rani membalikkan pesan penting tersebut.
 
-### Solution
+#### Solution
 ![alt text](/images/nclp/reward_runner/image.png)
 ![alt text](/images/nclp/reward_runner/image-1.png)
 
@@ -496,16 +496,16 @@ Running the script to the `secret.txt.idn.enc` that we extracted earlier we can 
 
 ![alt text](/images/nclp/reward_runner/image-7.png)
 
-### Flag
+#### Flag
 NCLPS1{d0nt_be_l1ke_Rani,_y0OoOu_h4ve_t0_be_aw4r3_of_y0urr_3nv1ronm3nt_eef53df1e1}
 
-## Secret Signal - Forensic
+### Secret Signal 
 
-### Description
+#### Description
 Fenomena aneh terjadi: sebuah media penyimpanan yang tampaknya memiliki kapasitas tak terbatas. Namun, keajaiban ini hanyalah ilusi—ada sesuatu yang tersembunyi di balik 'glitch' tersebut. Setiap lapisan data seakan menutupi lapisan berikutnya, membuat isi sebenarnya sulit dikenali. Petunjuknya ada pada struktur file yang tidak biasa, seakan ada celah di antara byte yang bisa dimanfaatkan. Bisakah kamu menemukan rahasia yang tersembunyi di balik anomali penyimpanan tak berujung ini?
 URL: https://www.youtube.com/watch?v=g8vDg94BA3U
 
-### Solution
+#### Solution
 From the chall description, it refers to **Infinite Storage Glitch (ISG)** that exploit media file (video) as a hidden storage. 
 
 ```bash
@@ -539,15 +539,15 @@ I extracted that file and from the output there's an image with the flag in it.
 
 ![](/images/nclp/secret_signal/3.png)
 
-### Flag
+#### Flag
 NCLPS1{k1ta_bisA_menyimPAn_fiLe_t4npa_b4tas_d1_yOutub3_f9c3d7cd98}
 
-## the yuesbi - Forensic
+### the yuesbi 
 
-### Description
+#### Description
 harusnya kamu sudah tau ini apa? menarik bukan?
 
-### Solution
+#### Solution
 ![alt text](/images/nclp/the_yuesbi/image.png)
 
 Given a pcap file, and I opened it with Wireshark. Upon analyzing the packets, it seems that this file is enumeration of USB device (GET_DESCRIPTOR, SET_CONFIGURATION) and indicates **HID Keyboard**.
@@ -556,33 +556,33 @@ Given a pcap file, and I opened it with Wireshark. Upon analyzing the packets, i
 
 I'm using tools from (https://usb.org/sites/default/files/hut1_5.pdf) to detect all captured packets from the keyboard through HID data and decode it automatically. The output shows the flag.
 
-### Flag
+#### Flag
 
 NCLPS1{t1d4k_H4nYya_n3twOrk_y4ng_4da_traffFf1c_USBb_juug4_ad4_tr4ff1cny4_7938ae8d3c}
 
-## traficc - Forensic
+### traficc 
 
-### Description
+#### Description
 Aku baru saja kehilangan pesan pentingku. Tampaknya ada sesuatu yang aneh pada jaringanku. Bantu aku mencarinya.
 
-### Solution
+#### Solution
 ![alt text](/images/nclp/traficc/image.png)
 
 Given two files for this chall, pcapng and .dd. For the first analysis, I did strings command for both of the files then piped it to grep the flag format (`NCLPS1{`), and somehow it gives the flag lol. (I know it's unintended but that's how you recon all artifacts that are given by the chall hehe).
 
-### Flag
+#### Flag
 NCLPS1{h0w_yOu_g0t_m3_4re_you_t1r3d_t0_f1nd_m3?_fd4ea173b1}
 
-## Whisper From The Basement - Forensic
+### Whisper From The Basement 
 
-### Description
+#### Description
 Sebuah komputer berperilaku aneh dan langsung diisolasi dari jaringan. Kamu diberi akses ke klon terkarantina dari mesin tersebut. Akses keluar (egress) ke internet diblokir, jadi segala upaya "call home" akan gagal.
 
 Tugasmu adalah triage DFIR: cari tahu apa yang mengompromikan, bagaimana ia bertahan/bersembunyi, dan pulihkan 2 pesan yang berusaha disamarkan oleh pelaku.
 
 **Hint:** "Hook yang baik sering bersembunyi di tempat yang selalu dibaca loader dinamis. Satu file di /etc bisa membuat direktori 'terlihat normal' padahal tidak."
 
-### Solution
+#### Solution
 From the hint, it refers to the path that always touched by dynamic loader, which `/etc/ld.so.preload`. In that file there is a custom library.
 
 **Filesystem & loader.**
@@ -709,5 +709,5 @@ Output successfully HIT at one of offset in **offset `0x3010` shift `0`**:
 [+] HIT offset=0x3010 shift=0 NCLPS1{y1haa_th3_r00k1t_hav3e3e3_aa_lFlag part2: 0tt_p3rs1stenc33_725775ce1c}
 ```
 
-### Flag
+#### Flag
 NCLPS1{y1haa_th3_r00k1t_hav3e3e3_aa_l0tt_p3rs1stenc33_725775ce1c}

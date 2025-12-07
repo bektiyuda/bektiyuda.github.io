@@ -9,16 +9,17 @@ Write ups from the challenge that I solved alongside with collaboration of my te
 
 ![](/images/sch/ScoreBoard.png)
 
-## wongpress - [Web]
+## Web
+### wongpress
 
-### Description
+#### Description
 you need to know how wordpress's ecosystem works, you are SUBS!
 
 *note:
 - this is CTF challenge wordpress plugin based
 - /register is only for creating new user accounts, there are NO VULNERABILITIES RELATED TO THE FLAG there!
 
-### Solution
+#### Solution
 
 ![](/images/sch/wongpress/image.png)
 
@@ -49,15 +50,16 @@ After that, we can finally create a post and check it. We inject `metaWeblog.new
 
 So we can access this via `/?p=$ID&preview=true`, and the response shows we got RCE then read the flag with `[schedule_content filter='$(base64$IFS-w0$IFS*ag\*)']` because of the blacklist.
 
-### Flag
+#### Flag
 SCH25{m44f_y4_p3r74m4_k4l1_8u47_ch4113n63_w0rdpr355_p1u61n_b4c_70_c0mm4nd_1nj3c710n_hahahahahahahahaha}
 
-## Computero - [Forensics]
+## Forensic
+### Computero
 
-### Description
+#### Description
 Seorang hacker berhasil mengencrypt seluruh dokumen milik rey. Padahal salah satu dokumen tersebut memiliki pesan yang sangat penting. Untungnya, hacker tidak membuang permanen jejak-jejak penyerangannya. Bantulah rey mendapatkan pesan pentingnya kembali.
 
-### Solution
+#### Solution
 
 ![](/images/sch/computero/Screenshot%202025-10-18%20195222.png)
 
@@ -126,19 +128,19 @@ if __name__ == "__main__":
 
 After we decrypt all of the files, the flag is in the `179-Screenshot (224).png` file.
 
-### Flag
+#### Flag
 SCH25{fl4ggknyA_In111_y4h_B4ng_Cr0c0dilldildilololo}
 
-## Mistakez - [Forensics]
+### Mistakez
 
-### Description
+#### Description
 Keke menjadi admin sebuah web pemesanan makanan. Tetapi tiba - tiba Keke tidak bisa login ke akun admin, setelah diperiksa ternyata password akun admin telah berubah. Hal ini terjadi karena Keke tidak memeriksa kembali aturan dari edit profil.
 
 Tolong bantu Keke menemukan username milik user yang mengganti password dari akun admin
 
 Format flag : SCH25{Username_milik_user_yang_mengganti_password_dari_akun_admin}
 
-### Solution
+#### Solution
 The changing password usually requested from HTTP POST, so we filter the packet with `http.request.method == "POST"`.
 
 ![](/images/sch/mistakez/Screenshot%202025-10-18%20175133.png)
@@ -153,15 +155,16 @@ In further analysis, we found another user making a request to edit profile at f
 
 With this sus cookie, we can get the user from `/login.php` and the user is `InfokanCaraMembantaiETS`.
 
-### Flag
+#### Flag
 SCH25{InfokanCaraMembantaiETS}
 
-## Flagle - [Reverse]
+## Reverse
+### Flagle
 
-### Description
+#### Description
 just play it bro
 
-### Solution
+#### Solution
 
 From the decompiled code, the main function is found at `FUN_0040390b`, a dispatcher that obfuscates a function pointer table using XOR key `0xDEADBEEFCAFEBABE`. The state value is stored in the context buffer, and while the state is not 7, the program fetches a handler from the XOR'd table, restores the original address by XOR'ing again, then calls it. This immediately indicates a state machine that terminates at state 7.
 
@@ -179,5 +182,5 @@ In `FUN_0040390b` earlier, there's initialization of three local pointers to thr
 
 With this, we can obtain three plaintext resources: `SchematicsCTF2025` as the table basis, custom alphabet for decoder (resource 3), and hexadecimal payload that after parsing produces the target (resource 1). The rest is to build per-index substitution tables from `"{SchematicsCTF2025}_pos_{i}_v2"` using SHA-256 as Fisher–Yates seed, then for each position find input byte x such that `table_i[x] == target[i]`.
 
-### Flag
+#### Flag
 SCH25{since_when_did_wordle_became_this_annoying__6675636b}
