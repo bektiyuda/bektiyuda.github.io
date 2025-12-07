@@ -28,6 +28,18 @@ code {
   width: 8px;
 }
 
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(255, 255, 255);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
 img,
 .no-selection {
   -webkit-tap-highlight-color: transparent;
